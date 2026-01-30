@@ -71,9 +71,22 @@ class Wisata(Base):
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
-    images = relationship("WisataImage", back_populates="wisata")
-    editor_reviews = relationship("EditorReview", back_populates="wisata")
-    user_reviews = relationship("UserReview", back_populates="wisata")
+    images = relationship(
+        "WisataImage", 
+        back_populates="wisata", 
+        cascade="all, delete-orphan" 
+    )
+    editor_reviews = relationship(
+        "EditorReview", 
+        back_populates="wisata", 
+        cascade="all, delete-orphan" 
+    )
+    user_reviews = relationship(
+        "UserReview", 
+        back_populates="wisata", 
+        cascade="all, delete-orphan" 
+    )
+    
     tag = relationship("Tag", secondary="wisata_tag", back_populates="wisata")
     facilities = relationship("Facility", secondary="wisata_facilities", back_populates="wisata")
     category = relationship(

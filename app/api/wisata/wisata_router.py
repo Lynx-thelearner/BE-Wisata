@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from sqlalchemy.orm import Session
 from orm_models import UserRole, WisataStatus
 from app.core.database import get_db
@@ -34,3 +34,11 @@ def update_wisata(id_wisata: int, wisata_data: WisataUpdate, db: Session = Depen
 @router.delete("/{id_wisata}", dependencies=[Depends(require_role(UserRole.editor, UserRole.admin))])
 def delete_wisata(id_wisata: int, db: Session = Depends(get_db)):
     return wisata_service.delete_wisata(db=db, id_wisata=id_wisata)
+
+@router.post("/{id_wisata}/upload-image")
+def upload_image(id_wisata: int, file: UploadFile = File(...), db: Session = Depends(get_db)):
+    return wisata_service.upload_image(db=db, id_wisata=id_wisata, file=file)
+
+@router.delete("/image/{id_wisata}")
+def delete_iamge(id_iamge:int, db: Session = Depends(get_db)):
+    return wisata_service.delete_image(db=db, id_image=id_iamge)

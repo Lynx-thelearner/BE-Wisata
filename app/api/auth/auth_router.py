@@ -14,3 +14,4 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
 @router.post("/login", response_model=auth.Token)
 def login_endpoint(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     return auth_service.login_user(db, form_data.username, form_data.password)
+

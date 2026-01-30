@@ -5,13 +5,16 @@ from sqlalchemy.orm import Session
 from fastapi import FastAPI
 from app.api import routers
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 """"Inisialisasi aplikasi"""
 app = FastAPI(
     title="Borneo",
-    description="Sistem perpustakaan sederhana dengan FastAPI",
+    description="Sistem informasi wisata Kaltim",
     version="1.0.0"
 )
+
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 app.add_middleware(
     CORSMiddleware,

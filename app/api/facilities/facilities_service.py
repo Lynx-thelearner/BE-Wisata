@@ -19,19 +19,19 @@ def create_facility(db: Session, facility_data:FacilitiesCreate) -> Facility:
     db.refresh(facilities)
     return facilities
 
-def update_facility(db: Session, tag_data: FacilitiesUpdate, id_facility: int) -> Facility | None:
-    tags = get_facility_by_id(db=db, id_facility=id_facility)
-    if not tags:
+def update_facility(db: Session, facility_data: FacilitiesUpdate, id_facility: int) -> Facility | None:
+    facilities = get_facility_by_id(db=db, id_facility=id_facility)
+    if not facilities:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail="Wisata Tidak Ditemukan")
-    update_tags = tag_data.model_dump(exclude_unset=True)
+    update_facilities = facility_data.model_dump(exclude_unset=True)
     
-    for key, value in update_tags.items():
-        setattr(tags, key, value)
+    for key, value in update_facilities.items():
+        setattr(facilities, key, value)
         
     db.commit()
-    db.refresh(tags)
-    return tags
+    db.refresh(facilities)
+    return facilities
 
 def delete_facility(db: Session, id_facility: int) -> Dict[str, str]:
     facilities = db.query(Facility).filter(Facility.id_facility == id_facility).first()

@@ -3,30 +3,30 @@ from sqlalchemy.orm import Session
 from orm_models import UserRole, WisataStatus
 from app.core.database import get_db
 from app.core.auth import require_role
-from app.api.facilities.facilities_service
-from app.schema.categories.categories_schema import CategoryCreate, CategoryUpdate, CategoryResponse
+from app.api.facilities import facilities_service
+from app.schema.facilities.facilities_schema import FacilitiesCreate, FacilitiesResponse, FacilitiesUpdate
 
 router = APIRouter(
-    prefix="/category",
-    tags=["category"]
+    prefix="/facility",
+    tags=["facility"]
 )
 
-@router.get("/", response_model=list[CategoryResponse])
-def get_all_category(db: Session = Depends(get_db)):
-    return category_service.get_all_category(db=db)
+@router.get("/", response_model=list[FacilitiesResponse])
+def get_all_facility(db: Session = Depends(get_db)):
+    return facilities_service.get_all_facility(db=db)
 
-@router.get("/{id_category}", response_model=CategoryResponse)
-def get_category_by_id(id_category:int, db: Session = Depends(get_db)):
-    return category_service.get_category_by_id(db=db, id_category=id_category)
+@router.get("/{id_facility}", response_model=FacilitiesResponse)
+def get_facility_by_id(id_facility:int, db: Session = Depends(get_db)):
+    return facilities_service.get_facility_by_id(db=db, id_facility=id_facility)
 
-@router.post("/", response_model=CategoryResponse)
-def create_category(category_data:CategoryCreate, db: Session = Depends(get_db)):
-    return category_service.create_category(db=db, category_data=category_data)
+@router.post("/", response_model=FacilitiesResponse)
+def create_facility(facility_data:FacilitiesCreate, db: Session = Depends(get_db)):
+    return facilities_service.create_facility(db=db, facility_data=facility_data)
 
-@router.patch("/{id_category}", response_model=CategoryResponse)
-def update_category(category_data:CategoryUpdate, id_category:int, db: Session = Depends(get_db)):
-    return category_service.update_category(db=db, category_data=category_data, id_category=id_category)
+@router.patch("/{id_facility}", response_model=FacilitiesResponse)
+def update_facility(facility_data:FacilitiesUpdate, id_facility:int, db: Session = Depends(get_db)):
+    return facilities_service.update_facility(db=db, facility_data=facility_data, id_facility=id_facility)
 
-@router.delete("/{id_category}")
-def delete_category(id_category:int, db: Session = Depends(get_db)):
-    return category_service.delete_category(db=db, id_category=id_category)
+@router.delete("/{id_facility}")
+def delete_facility(id_facility:int, db: Session = Depends(get_db)):
+    return facilities_service.delete_facility(db=db, id_facility=id_facility)

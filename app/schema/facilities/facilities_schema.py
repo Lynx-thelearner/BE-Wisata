@@ -14,7 +14,7 @@ class FacilitiesUpdate(BaseModel):
     name: Optional[str] = None
     
 class FacilitiesResponse(FacilitiesBase):
-    id_tag: int
+    id_facility: int
     
     model_config = ConfigDict(
     from_attributes=True
