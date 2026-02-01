@@ -160,12 +160,25 @@ def delete_image(db: Session, id_image:int):
     else:
         full_path = file_path 
         
+    next_image = None
+
     if image_data.is_primary:
-        next_image = (
-            db.query(WisataImage).filter(WisataImage.id_wisata == image_data.id_wisata,
-                                         WisataImage.id_image != image_data.id_image).first())
+        image_data.is_primary = False
+
+    next_image = (
+        db.query(WisataImage)
+        .filter(
+            WisataImage.id_wisata == image_data.id_wisata,
+            WisataImage.id_image != image_data.id_image
+        )
+        .order_by(WisataImage.id_image.asc())
+        .first()
+    )
+
     if next_image:
         next_image.is_primary = True
+
+
 
         
     try:

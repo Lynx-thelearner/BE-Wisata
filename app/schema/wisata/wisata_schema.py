@@ -83,3 +83,11 @@ class WisataResponse(WisataBase):
             return [img.image_url for img in value]
         except AttributeError:
             return value
+
+class ImageResponse(BaseModel):
+    id_image: int
+    id_wisata: int
+    image_url: str
+    is_primary: bool
+
+    model_config = ConfigDict(from_attributes=True)
