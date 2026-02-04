@@ -8,11 +8,17 @@ import uuid
 
 
 def get_all_wisata(db: Session) -> List[Wisata]:
-    return db.query(Wisata).all()
+    return db.query(Wisata).order_by(Wisata.id_wisata.asc()).all()
 
 
 def get_publish_wisata(db: Session) -> List[Wisata]:
-    return db.query(Wisata).filter(Wisata.status == WisataStatus.published).all()
+    return (
+        db.query(Wisata)
+        .filter(Wisata.status == WisataStatus.published)
+        .order_by(Wisata.id_wisata.desc())
+        .all()
+    )
+
 
 
 def get_wisata_by_id(db: Session, id_wisata: int) -> Wisata | None:
